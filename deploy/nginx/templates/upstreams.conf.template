@@ -3,11 +3,9 @@ upstream php-upstream {
 }
 
 upstream symfony-upstream {
-    #server php:9001;
-
     server php:9002;
 }
 
-upstream symfony-upstream {
+upstream bynastya-upstream {
     server php:9001;
 }

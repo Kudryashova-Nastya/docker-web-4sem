@@ -9,6 +9,26 @@ server {
     location / {
         root   /usr/share/nginx/html;
         index  index.html index.htm;
+
+        # Говорим, что кешируем на 1 час
+        expires 1h;
+
+        # Говорим, что кешируем и на прокси, и на клиенте
+        add_header Cache-Control public;
+    }
+
+    location ~ \.(gif|jpg|png)$ {
+        root /usr/share/nginx/html/images;
+        expires 1h;
+        add_header Cache-Control public;
+    }
+
+    location ~ \.(mkv|mp4|mov)$ {
+        root /usr/share/nginx/html/videos;
+    }
+
+    location ~ \.(doc|docx)$ {
+        root /usr/share/nginx/html/docs;
     }
 
     error_page   500 502 503 504  /50x.html;

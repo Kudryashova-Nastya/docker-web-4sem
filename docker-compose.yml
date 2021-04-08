@@ -7,11 +7,17 @@ services:
       dockerfile: deploy/nginx/Dockerfile
     volumes:
       - ./deploy/nginx/templates:/etc/nginx/templates
+      - ./public/images:/usr/share/nginx/html/images
+      - ./public/docs:/usr/share/nginx/html/docs
+      - ./public/videos:/usr/share/nginx/html/videos
     ports:
       - "8081:80"
     environment:
       - NGINX_CUSTOM_SERVER_NAME=project-2021.local
       - NGINX_SYMFONY_SERVER_NAME=project-symfony.local
+      - NGINX_SYMFONY2_SERVER_NAME=project-bynastya.local
+    networks:
+      - web_network
 
   php:
     container_name: project-php
@@ -20,3 +26,7 @@ services:
       dockerfile: deploy/php-fpm/Dockerfile
     volumes:
       - ./public:/data/public
+    networks:
+      - web_network
+networks:
+  web_network:
