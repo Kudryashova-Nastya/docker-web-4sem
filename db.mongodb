@@ -1,0 +1,100 @@
+// MongoDB Playground
+// To disable this template go to Settings | MongoDB | Use Default Template For Playground.
+// Make sure you are connected to enable completions and to be able to run a playground.
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// Select the database to use.
+use('mongodbVSCodePlaygroundDB');
+
+// The drop() command destroys all data from a collection.
+// Make sure you run it against the correct database and collection.
+db.user.drop();
+db.carmodel.drop();
+
+
+
+
+db.carmodel.insertMany([
+  { '_id': '52ffc33cd85242f436000001', 'name': 'kia rio 1 поколение', 'gearbox': 'автомат', 'body':'универсал', 'seats': 5, 'doors': 5, 'rubber': 'слева' },
+  { '_id': '52ffc33cd85242f436000002', 'name': 'BMW visto', 'gearbox': 'автомат', 'body':'седан', 'seats': 5, 'doors': 5, 'rubber': 'слева' },
+  { '_id': '52ffc33cd85242f436000003', 'name': 'kia rio 2 поколение', 'gearbox': 'механика', 'body': 'универсал', 'seats': 5, 'doors': 5, 'rubber': 'слева' },
+  { '_id': '52ffc33cd85242f436000004', 'name': 'kia rio soul', 'gearbox': 'автомат', 'body':'хетчбэк', 'seats': 5, 'doors': 5, 'rubber': 'слева' },
+  { '_id': '52ffc33cd85242f436000005', 'name': 'BMW besta', 'gearbox': 'механика', 'body':'седан', 'seats': 5, 'doors': 5, 'rubber': 'слева' },
+]);
+
+
+db.user.insertMany([
+  { '_id': '52ffc33cd85242f436000021', 'name': 'Геннадий Н.', 'location': 'Подольск', 'phone':'+7(927)492-48-18'},
+  { '_id': '52ffc33cd85242f436000022', 'name': 'Виталий Н.', 'location': 'Подольск', 'phone':'+7(927)492-48-19'},
+  { '_id': '52ffc33cd85242f436000023', 'name': 'Анатолий Н.', 'location': 'Подольск', 'phone':'+7(927)492-48-20'},
+  { '_id': '52ffc33cd85242f436000024', 'name': 'Аркадий Н.', 'location': 'Подольск', 'phone':'+7(927)492-48-11'},
+  { '_id': '52ffc33cd85242f436000025', 'name': 'Валерий Н.', 'location': 'Подольск', 'phone':'+7(927)492-48-12'},
+]);
+
+
+db.car.insertMany([
+  { '_id': '52ffc33cd85242f436000031', 'brand': 'kia', 'car_model_id': ObjectId('52ffc33cd85242f436000001'), 'price':1380000, 'year': 2009, 'casco': true, 'color': 'чёрный', 'owner_id':  ObjectId('52ffc33cd85242f436000021')},
+  { '_id': '52ffc33cd85242f436000032', 'brand': 'kia', 'car_model_id': ObjectId('52ffc33cd85242f436000003'), 'price':1380000, 'year': 2015, 'casco': true, 'color': 'чёрный', 'owner_id':  ObjectId('52ffc33cd85242f436000021')},
+  { '_id': '52ffc33cd85242f436000033', 'brand': 'bmw', 'car_model_id': ObjectId('52ffc33cd85242f436000002'), 'price':1500000, 'year': 2019, 'casco': true, 'color': 'белый', 'owner_id':  ObjectId('52ffc33cd85242f436000022')},
+  { '_id': '52ffc33cd85242f436000034', 'brand': 'kia', 'car_model_id': ObjectId('52ffc33cd85242f436000004'), 'price':1380000, 'year': 2011, 'casco': true, 'color': 'красный', 'owner_id':  ObjectId('52ffc33cd85242f436000023')},
+  { '_id': '52ffc33cd85242f436000035', 'brand': 'bmw', 'car_model_id': ObjectId('52ffc33cd85242f436000005'), 'price':1480000, 'year': 2015, 'casco': true, 'color': 'чёрный', 'owner_id':  ObjectId('52ffc33cd85242f436000024')},
+  { '_id': '52ffc33cd85242f436000036', 'brand': 'bmw', 'car_model_id': ObjectId('52ffc33cd85242f436000005'), 'price':1480000, 'year': 2015, 'casco': true, 'color': 'синий', 'owner_id':  ObjectId('52ffc33cd85242f436000024')},
+]);
+
+
+db.image.insertMany([
+  { '_id': '52ffc33cd85242f43600041', 'car_id': ObjectId('52ffc33cd85242f436000021'), 'way': '/k1.jpg'},
+  { '_id': '52ffc33cd85242f43600042', 'car_id': ObjectId('52ffc33cd85242f436000022'), 'way': '/k2.jpg'},
+  { '_id': '52ffc33cd85242f43600043', 'car_id': ObjectId('52ffc33cd85242f436000023'), 'way': '/k3.jpg'},
+  { '_id': '52ffc33cd85242f43600044', 'car_id': ObjectId('52ffc33cd85242f436000024'), 'way': '/k4.jpg'},
+  { '_id': '52ffc33cd85242f43600045', 'car_id': ObjectId('52ffc33cd85242f436000025'), 'way': '/k5.jpg'},
+  { '_id': '52ffc33cd85242f43600046', 'car_id': ObjectId('52ffc33cd85242f436000026'), 'way': '/k6.jpg'},
+  
+]);
+
+
+db.user.find({  });
+db.carmodel.find({  });
+db.car.find({  });
+db.image.find({  });
+
+db.car.find({ color: 'чёрный'}, {_id:0});
+
+db.car.find ({$or : [{color: 'синий'}, {year: 2011}]})
+
+db.user.deleteOne({ 'name' : 'Валерий Н.' });
+
+db.car.updateMany({brand: {$ne: 'kia'}}, { $inc : { price: 20000 }});
+
+db.car.aggregate( [ {$group :{ _id : 'car', total_price: { $sum : "$price" }}} ] )
+
+// db.car.aggregate([
+//     {$lookup:{
+//       from: "user",       // other table name
+//       localField: "car.owner_id.oid",   // name of users table field
+//       foreignField: "user.id", // name of userinfo table field
+//       as: "owners"         // alias for userinfo table
+// }}]);
+
+db.user.aggregate([
+   {
+      $lookup:
+         {
+           from: "car",
+           pipeline: [
+              { $match: { year: 2015 } },
+              { $project: { _id: 0, car: { brand: "$brand", price: "$price" } } }
+           ],
+           as: "cars"
+         }
+    }
+])
+
+
+const aggregation = [
+  { $match: { gearbox: 'автомат'} },
+  { $group: { _id: '$seats', totalSeatsAmount: { $sum: '$seats' } } }
+];
+db.carmodel.aggregate(aggregation);
+
+db.car.find().explain();
