@@ -1,7 +1,10 @@
+CREATE DATABASE project2021 DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci
+
+--DROP TABLE image;
 
 CREATE TABLE `car` (
   `id` int(128) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `price` smallint(5) UNSIGNED NOT NULL,
+  `price` int(10) UNSIGNED NOT NULL,
   `year` smallint(5) UNSIGNED NOT NULL,
   `casco` tinyint(1) NOT NULL,
   `mileage` int(10) UNSIGNED NOT NULL,
@@ -9,6 +12,7 @@ CREATE TABLE `car` (
   `car_model_id` int(32) NOT NULL,
   `owner_id` int(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE `carmodel` (
   `id` int(32) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -27,7 +31,7 @@ CREATE TABLE `image` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `car_id` int(128) NOT NULL,
   `image_type` varchar(25) NOT NULL default 'jpg',
-  `image` blob NOT NULL,
+  `image_url` varchar(150) NOT NULL,
   `image_size` varchar(25) NOT NULL,
   `image_name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -38,7 +42,6 @@ CREATE TABLE `user` (
   `location` varchar(200) NOT NULL,
   `phone` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 ALTER TABLE `car`
   ADD KEY `model_id` (`car_model_id`) USING BTREE,
@@ -57,8 +60,8 @@ ALTER TABLE `image`
   ADD CONSTRAINT `Car_id` FOREIGN KEY (`car_id`) REFERENCES `car` (`id`);
 
 
-INSERT INTO `carmodel` (`id`, `brand`, `name`, `gearbox`, `body`, `seats`, `drive`, `engine`, `doors`, `rudder`) VALUES
-(1, 'Kia', 'kia rio', 'Механическая', 'универсал', 5, 'Передний', 'бензин', 4, 'слева');
+INSERT INTO `carmodel` (`brand`, `name`, `gearbox`, `body`, `seats`, `drive`, `engine`, `doors`, `rudder`) VALUES
+('Kia', 'kia rio', 'Механическая', 'универсал', 5, 'Передний', 'бензин', 4, 'слева');
 INSERT INTO `carmodel` (`brand`, `name`, `gearbox`, `body`, `seats`, `drive`, `engine`, `doors`, `rudder`) VALUES
 ('Volkswagen', 'Volkswagen Tiguan 5 поколение', 'Механическая', 'универсал', 5, 'Передний', 'бензин', 4, 'слева');
 
@@ -67,12 +70,27 @@ INSERT INTO `user` (`name`, `location`, `phone`) VALUES
 INSERT INTO `user` (`name`, `location`, `phone`) VALUES
 ('Татьяна Д.', 'г. Москва, ул. Победы д.50', '+7(916)114-98-94');
 
-INSERT INTO `car` (`id`, `price`, `year`, `casco`, `mileage`, `color`, `car_model_id`, `owner_id`) VALUES
-(1, 1380000, 2015, 0, 50000, 'чёрный', 1, 1);
 INSERT INTO `car` (`price`, `year`, `casco`, `mileage`, `color`, `car_model_id`, `owner_id`) VALUES
-(1330000, 2012, 0, 70000, 'чёрный', 1, 1);
+(1380000, 2015, 0, 50000, 'чёрный', 1, 1);
+INSERT INTO `car` (`price`, `year`, `casco`, `mileage`, `color`, `car_model_id`, `owner_id`) VALUES
+(1330000, 2012, 0, 70000, 'чёрный', 2, 2);
+
+INSERT INTO `image` (`car_id`, `image_type`, `image_url`, `image_size`, `image_name`) VALUES
+(1, 'jpg', 'https://static.am/automobile_m3/document/l/d/df/ddf0e8ba874fa0433a8cd54988eea77c.jpg', '359КБ', 'ddf0e8ba874fa0433a8cd54988eea77c')
 
 
-explain SELECT * FROM car, carmodel,  user  WHERE brand='Kia' and carmodel.name='kia rio' and user.id=1 and color='чёрный' and year=2015;
--- более оптимизированный запрос
-explain SELECT * FROM car, carmodel IGNORE INDEX (brand),  user  WHERE brand='Kia' and carmodel.name='kia rio' and user.id=1 and color='чёрный' and year=2015;
+--explain SELECT * FROM car, carmodel,  user  WHERE brand='Kia' and carmodel.name='kia rio' and user.id=1 and color='чёрный' and year=2015;
+
+SELECT * FROM car INNER JOIN carmodel ON car.car_model_id = carmodel.id;
+
+SELECT * FROM car INNER JOIN carmodel ON car.car_model_id = carmodel.id WHERE brand='Kia' and color='чёрный';
+--explain SELECT * FROM car, carmodel IGNORE INDEX (brand),  user  WHERE brand='Kia' and carmodel.name='kia rio' and user.id=1 and color='чёрный' and year=2015;
+
+-- запрос на вывод данных со страницы юлы
+SELECT `brand`, carmodel.`name`, `gearbox`, `body`, `seats`, `drive`, `engine`, `doors`, `rudder`,
+`price`, `year`, `casco`, `mileage`, `color`,
+`location`, `image_type`, `image_url`, `image_name`
+FROM car INNER JOIN carmodel ON car.car_model_id = carmodel.id 
+INNER JOIN user ON car.owner_id = user.id 
+INNER JOIN image ON car.id = image.car_id 
+WHERE car.id=1;

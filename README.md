@@ -5,6 +5,12 @@
 Создала 4 таблицы, заполнила их данными. 
 Составила запрос, который позволит выбрать данные из схемы для отображения информации исследованной страницы.  
 Вот он:
-explain SELECT * FROM car, carmodel IGNORE INDEX (brand),  user  WHERE brand='Kia' and carmodel.name='kia rio' and user.id=1 and color='чёрный' and year=2015;
-Обосновала эффективность запроса через explain. 
+-- запрос на вывод данных со страницы юлы
+SELECT `brand`, carmodel.`name`, `gearbox`, `body`, `seats`, `drive`, `engine`, `doors`, `rudder`,
+`price`, `year`, `casco`, `mileage`, `color`,
+`location`, `image_type`, `image_url`, `image_name`
+FROM car INNER JOIN carmodel ON car.car_model_id = carmodel.id 
+INNER JOIN user ON car.owner_id = user.id 
+INNER JOIN image ON car.id = image.car_id 
+WHERE car.id=1;
 
