@@ -1,0 +1,30 @@
+version: "3"
+services:
+  nginx:
+    container_name: project-nginx
+    build:
+      context: .
+      dockerfile: deploy/nginx/Dockerfile
+    volumes:
+      - ./deploy/nginx/templates:/etc/nginx/templates
+    ports:
+      - "8081:80"
+    environment:
+      - NGINX_SYMFONY_SERVER_NAME=project-symfony.local
+    links:
+      - php
+
+  php:
+    container_name: project-php
+    build:
+      context: .
+      dockerfile: deploy/php-fpm/Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./public:/data/public:cached
+      - ./bin:/data/bin:cached
+      - ./config:/data/config:cached
+      - ./src:/data/src:cached
+      - ./vendor:/data/vendor:cached
+      - ./var/cache:/data/var/cache:cached

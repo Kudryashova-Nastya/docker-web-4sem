@@ -1,0 +1,35 @@
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: 'auto'
+    providers:
+        backend_users:
+            memory:
+                users:
+                    admin: { password: '$argon2id$v=19$m=65536,t=4,p=1$blpwT2VhbHYwMEdPbG1WMg$Cwiu1wRNZyagIt1K5VCuI6dnHh/fDvsofoVtrEIjzQ0', roles: [ 'ROLE_ADMIN' ] } 
+                    user: { password: '$argon2id$v=19$m=65536,t=4,p=1$QkNZUnlxZnhFMlNmUUsvNQ$2c9/sCyjnhaHT5Xlvcl3EFiciMaSAPlATfl/jF3u5J0', roles: [ 'ROLE_USER' ] }  
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern: ^/api
+            http_basic:
+              realm: Secured Area.
+
+
+        users:
+            pattern: ^/api/v1/test/users
+            http_basic:
+                realm: Please don't enter if you are alien
+
+    access_control:
+        - { path: ^/api/v1/test/users, roles: [ROLE_ADMIN, ROLE_USER] }
+        - { path: ^/api, roles: ROLE_ADMIN }
+
+#    role_hierarchy:
+#        ROLE_SUPERUSER:
+#            -   ROLE_ADMIN
+#        ROLE_USER:
+#            -   ROLE_USER
