@@ -1,0 +1,37 @@
+security:
+  role_hierarchy:
+    !php/const App\Core\User\Enum\Role::ADMIN:
+      - !php/const App\Core\User\Enum\Role::USER
+      - !php/const App\Core\User\Enum\Role::READER
+      - !php/const App\Core\User\Enum\Role::LIBRARIAN
+      - !php/const App\Core\User\Enum\Role::OPERATOR
+      - !php/const App\Core\User\Enum\Permission::USER_CREATE
+      - !php/const App\Core\User\Enum\Permission::USER_UPDATE
+      - !php/const App\Core\User\Enum\Permission::USER_DELETE
+      - !php/const App\Core\User\Enum\Permission::USER_VALIDATION
+    !php/const App\Core\User\Enum\Role::OPERATOR:
+      - !php/const App\Core\User\Enum\Role::USER
+      - !php/const App\Core\User\Enum\Role::LIBRARIAN
+      - !php/const App\Core\User\Enum\Role::READER
+      - !php/const App\Core\User\Enum\Permission::USER_CONTACT_CREATE
+      - !php/const App\Core\User\Enum\Permission::BOOK_AUTHOR_CREATE
+      - !php/const App\Core\User\Enum\Permission::USER_INDEX
+      - !php/const App\Core\User\Enum\Permission::USER_SHOW
+      - !php/const App\Core\User\Enum\Permission::BOOK_DELETE
+
+    !php/const App\Core\User\Enum\Role::LIBRARIAN:
+      - !php/const App\Core\User\Enum\Role::USER
+      - !php/const App\Core\User\Enum\Permission::BOOK_CREATE
+      - !php/const App\Core\User\Enum\Permission::BOOK_INDEX
+      - !php/const App\Core\User\Enum\Permission::BOOK_UPDATE
+      - !php/const App\Core\User\Enum\Permission::BOOK_DELETE
+      - !php/const App\Core\User\Enum\Permission::BOOK_SHOW
+
+    !php/const App\Core\User\Enum\Role::READER:
+      - !php/const App\Core\User\Enum\Role::USER
+      - !php/const App\Core\User\Enum\Permission::BOOK_INDEX
+      - !php/const App\Core\User\Enum\Permission::BOOK_UPDATE
+      - !php/const App\Core\User\Enum\Permission::BOOK_SHOW
+      
+    !php/const App\Core\User\Enum\Role::USER:
+      - !php/const App\Core\User\Enum\Permission::BOOK_SHOW
