@@ -10,9 +10,12 @@ class BookUpdateRequestDto
 {
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(max=30, min=3)
+     * @Assert\Length(max=50, min=1)
      */
-    public ?string $name = null;
+    public string $name = '';
 
-    public ?string $status = null;
+    /**
+     * @Assert\Length(max=20, min=3)
+     */
+    public string $status = '';
 }

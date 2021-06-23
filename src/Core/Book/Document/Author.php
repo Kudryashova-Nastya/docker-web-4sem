@@ -10,7 +10,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceOne;
 
 /**
- * @MongoDB\Document(repositoryClass=AuthorRepository::class, collection="type")
+ * @MongoDB\Document(repositoryClass=AuthorRepository::class, collection="authors")
  */
 class Author extends AbstractDocument
 {
@@ -21,15 +21,17 @@ class Author extends AbstractDocument
 
     /**
      * @MongoDB\Field(type="string")
-     * @MongoDB\UniqueIndex(name="book_type")
+     * @MongoDB\UniqueIndex(name="book_author")
      */
     protected string $author;
 
+    
     /**
      * @ReferenceOne(targetDocument=Book::class)
      */
     protected Book $book;
 
+    
     public function __construct(string $author, Book $book)
     {
         $this->author = $author;

@@ -22,18 +22,18 @@ class Book extends AbstractDocument
     /**
      * @MongoDB\Field(type="string")
      */
-    protected ?string $name  = null;
+    protected string $name = '';
 
     /**
      * @MongoDB\Field(type="string")
      */
-    protected ?string $status = null;
+    protected string $status = 'В наличии';
 
     /**
      * @MongoDB\Field(type="string")
      * @MongoDB\UniqueIndex(name="book_isbn")
      */
-    protected string $isbn;
+    protected string $isbn = '';
 
 
     public function __construct(

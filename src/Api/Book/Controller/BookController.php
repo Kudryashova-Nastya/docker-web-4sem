@@ -44,13 +44,15 @@ class BookController extends AbstractController
      *
      * @return BookResponseDto
      */
-    public function show(Book $book = null)
+    public function show(Book $book = null, AuthorRepository $authorRepository)
     {
         if (!$book) {
             throw $this->createNotFoundException('Book not found');
         }
 
-        return $this->createBookResponse($book);
+        $author = $authorRepository->findOneBy(['book' => $book]);
+
+        return $this->createBookResponse($book, $author);
     }
 
     /**

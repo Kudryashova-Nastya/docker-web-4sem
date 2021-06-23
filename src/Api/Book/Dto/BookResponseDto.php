@@ -9,11 +9,11 @@ class BookResponseDto
 {
     public ?string $id = null;
 
-    public ?string $name  = null;
+    public string $name  = '';
 
-    public ?string $status = null;
+    public string $status = '';
 
-    public string $isbn;
+    public string $isbn = '';
 
     public ?AuthorResponseDto $author;
 }

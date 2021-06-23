@@ -11,12 +11,12 @@ class BookCreateRequestDto
     /**
      * @Assert\Length(max=50, min=1)
      */
-    public ?string $name = null;
+    public string $name = '';
 
     /**
-     * @Assert\Length(max=20, min=1)
+     * @Assert\Length(max=20, min=3)
      */
-    public ?string $status = null;
+    public string $status = 'В наличии';
 
     /**
      * @Assert\Length(17)

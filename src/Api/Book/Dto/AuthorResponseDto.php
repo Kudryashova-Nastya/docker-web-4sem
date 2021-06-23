@@ -8,5 +8,5 @@ class AuthorResponseDto
 {
     public ?string $id = null;
 
-    public string $Author;
+    public string $author;
 }
