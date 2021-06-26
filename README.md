@@ -50,10 +50,37 @@ compоser install --ignore-platform-reqs
 ### <a name="Three"></a>    Каким образом в Makefile можно защититься от выполнения файла при передаче аргумента команде make?
 
 Допустим, мы хотим 
+Некоторые методы «передачи аргументов для запуска»:
+```sh
+run: prog
+    ./prog $(filter-out $@, $(MAKECMDGOALS))
+
+%:
+    @true
+```
+Здесь нам нужно отфильтровать текущую цель из списка целей. create catch all target ( %), который ничего не делает, чтобы молча игнорировать другие цели.
+
+```sh
+ifeq (run, $(firstword $(MAKECMDGOALS)))
+  runargs := $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
+  $(eval $(runargs):;@true)
+endif
+
+run:
+    ./prog $(runargs)
+```
+если цель - runудалить первую цель и создать ничего не делать цели для оставшихся целей, используя eval.
+
+оба способа позволят вам написать что-то вроде этого
+
+```sh
+$ make run arg1 arg2
+```
 
 ### <a name="Four"></a>    Список источников
 
 + <https://getcomposer.org/doc/06-config.md#platform>
 + <http://fkn.ktu10.com/?q=node/9866>
 + <http://fkn.ktu10.com/?q=node/8594>
++ <http://linux.yaroslavl.ru/docs/prog/gnu_make_3-79_russian_manual.html>
 
